@@ -10,11 +10,11 @@ resource "aws_route53_zone" "default" {
 }
 
 module "cert" {
-  source = "github.com/linaro-its/terraform-aws-acm-certificate?ref=0.1.2"
+  source = "github.com/linaro-its/terraform-aws-acm-certificate?ref=0.1.3"
 
   providers = {
-    aws.acm_account     = "aws.cert-account"
-    aws.route53_account = "aws.route53-account"
+    aws.acm_account     = aws.cert-account
+    aws.route53_account = aws.route53-account
   }
 
   domain_name               = "linaro.org"
