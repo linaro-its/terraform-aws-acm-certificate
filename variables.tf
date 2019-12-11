@@ -1,7 +1,7 @@
 variable "domain_name" {}
 
 variable "subject_alternative_names" {
-  type = "list"
+  type = list(string)
 }
 
 variable "hosted_zone_id" {}
