@@ -1,13 +1,13 @@
 provider "aws" {
-  alias = "acm_account"
+  alias = "acm"
 }
 
 provider "aws" {
-  alias = "route53_account"
+  alias = "route53"
 }
 
 resource "aws_acm_certificate" "default" {
-  provider                  = aws.acm_account
+  provider                  = aws.acm
   domain_name               = var.domain_name
   subject_alternative_names = [var.subject_alternative_names]
   validation_method         = "DNS"
@@ -22,7 +22,7 @@ resource "aws_acm_certificate" "default" {
 }
 
 resource "aws_route53_record" "validation" {
-  provider = aws.route53_account
+  provider = aws.route53
   count    = length(var.subject_alternative_names) + 1
 
   name    = lookup(aws_acm_certificate.default.domain_validation_options[count.index], "resource_record_name")
@@ -33,7 +33,7 @@ resource "aws_route53_record" "validation" {
 }
 
 resource "aws_acm_certificate_validation" "default" {
-  provider        = aws.acm_account
+  provider        = aws.acm
   certificate_arn = aws_acm_certificate.default.arn
 
   validation_record_fqdns = [
